@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project default="run" name="GridWorld-Part3">
+  <description>GridWorld Program</description>
+
+  <property name="srcDir" location="src"/>
+  <property name="buildDir" location="build"/>
+  <property name="libDir" location="lib"/>
+
+  <!-- 初始化,建立目录,将多个src目录复制到同一src目录，编译，打包完成后自动清除 -->  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${buildDir}"/>
+  </target>
+
+  <!-- 编译源文件--> 
+  <target name="compile" depends="init">
+    <javac srcdir="${srcDir}" destdir="${buildDir}" includeantruntime="on">
+        <classpath>
+            <fileset dir="${libDir}" includes="*.jar"></fileset>
+        </classpath>
+    </javac>
+  </target>
+
+  <target name="run" depends="compile">
+      <java classname="JumperRunner" fork="true">
+        <classpath>
+            <pathelement path="${buildDir}"/> 
+            <fileset dir="${libDir}" includes="*.jar"></fileset>
+        </classpath>
+    </java>
+  </target>
+
+  <target name="clean">
+    <delete dir="${buildDir}"/>
+  </target>
+
+</project>

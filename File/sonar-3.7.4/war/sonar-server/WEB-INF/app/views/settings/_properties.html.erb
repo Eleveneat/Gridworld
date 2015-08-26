@@ -1,0 +1,101 @@
+<% if @category.isSpecial -%>
+<%= render 'special', :url => url_for(:controller => "#{@category.key}_configuration") -%>
+<% else -%>
+<% form_remote_tag :url => {:controller => 'settings', :action => 'update', :category => @category.key, :subcategory => @subcategory.key, :resource_id => (@resource && @resource.id)},
+:method => :post,
+:before => "$('submit_settings').hide();$('loading_settings').show();",
+:update => 'properties',
+:script => false do -%>
+<% subcategories = @subcategories_per_categories[@category] || [] -%>
+<ul class="tabs2">
+<% subcategories.each do |subcategory| -%>
+<li>
+<%= link_to subcategory_name(@category, subcategory), {:controller => @resource ? 'project' : 'settings', :action => @resource ? 'settings' : 'index', :category => @category.key, :subcategory => subcategory.key, :id => (@resource && @resource.id)}, :class => @subcategory==subcategory ? 'selected' : nil -%>
+</li>
+<% end -%>
+</ul>
+<% if @subcategory.isSpecial %>
+<%= render 'special', :url => url_for(:controller => "#{@subcategory.key}_configuration") -%>
+<% else %>
+<table class="data marginbottom10">
+<thead>
+<% if @subcategory.key == @category.key && !category_desc(@category).blank? -%>
+<tr>
+<td class="categoryDescription"><%= category_desc(@category) -%> </td>
+</tr>
+<% end -%>
+<% if @subcategory.key != @category.key && !subcategory_desc(@category, @subcategory).blank? -%>
+<tr>
+<td><%= subcategory_desc(@category, @subcategory) -%> </td>
+</tr>
+<% end -%>
+</thead>
+<tbody>
+<% by_property_index_or_name(@definitions).each do |property| -%>
+<tr class="property <%= cycle('even', 'odd', :name => 'properties') -%>">
+<td style="padding: 10px" id="block_<%= property.key -%>">
+<h3>
+<div><%= property_name(property) -%></div>
+<div class="note"><%= property.key -%></div>
+</h3>
+<% desc=property_description(property) -%>
+<% unless desc.blank? %>
+<p class="marginbottom10"><%= desc -%></p>
+<% end -%>
+<% value = property_value(property) -%>
+<% if property.multi_values -%>
+<% value.each_with_index do |sub_value, index| -%>
+<%= render "settings/multi_value", :property => property, :value => sub_value, :hide_delete => index == 0 -%>
+<% end -%>
+<div class="template" style="display:none;">
+<%= render "settings/multi_value", :property => property, :value => nil, :hide_delete => false -%>
+</div>
+<button class="add_value"><%= message('settings.add') -%></button>
+<br/>
+<% else -%>
+<%= render "settings/single_value", :property => property, :value => value -%>
+<% end -%>
+<%= render "settings/error", :key => property.key -%>
+<% default_prop_value = (@resource ? Property.value(property.key, nil, property.defaultValue) : property.defaultValue) -%>
+<% unless default_prop_value.blank? -%>
+<div class="note"><%= message('default') %>: <%= property.type.to_s=='PASSWORD' ? '********' : h(default_prop_value) -%></div>
+<% end -%>
+</td>
+</tr>
+<% end -%>
+<% unless @subcategory != @category || category_help(@category).blank? -%>
+<tr class="property <%= cycle('even', 'odd', :name => 'properties') -%>">
+<td class="help"><%= category_help(@category) -%> </td>
+</tr>
+<% end -%>
+</tbody>
+</table>
+<% unless @definitions.empty? %>
+<div style="padding-left: 5px;">
+<%= hidden_field_tag('page_version', (params[:page_version] || 0).to_i + 1) -%>
+<%= submit_tag(message('settings.save_category', :params => [subcategory_name(@category, @subcategory)]), :id => 'submit_settings') -%>
+<img src="<%= ApplicationController.root_context -%>/images/loading.gif" id="loading_settings" style="display:none;">
+</div>
+<% end %>
+<% end %>
+<% end -%>
+<% end -%>
+<script>
+$j(document)
+.on('click', '.delete', function () {
+$j(this).parents('.multi_value').remove();
+return false;
+})
+.on('click', '.add_value', function () {
+var template = $j(this).parents('.property').find('.template').last();
+template.clone().insertBefore(template).show();
+return false;
+})
+.on('keypress', 'form', function (e) {
+if (e.which == 13 && e.target.nodeName != "TEXTAREA") {
+/* See https://jira.codehaus.org/browse/SONAR-4363 */
+submit_settings.click();
+return false;
+}
+});
+</script>

@@ -1,0 +1,14 @@
+emailnotifications,true,sonar-email-notifications-plugin-3.7.4.jar|f66f978f5b20b301dd959a53a7c5e6b7
+pmd,false,sonar-pmd-plugin-1.3.jar|3aeb7cfd66f828ba06bd21bdbe3a9092
+dbcleaner,true,sonar-dbcleaner-plugin-3.7.4.jar|678819f67bdb6fe2ed05d7d72d48f91c
+jacoco,false,sonar-jacoco-plugin-1.3.jar|9549d6c819bf08261ba7c812c3697323
+surefire,false,sonar-surefire-plugin-1.3.jar|4d9c958d608f88d2b9c267da83ece9c4
+squidjava,false,sonar-squid-java-plugin-1.3.jar|fce82a4b321147940a115affe27b37db
+core,true,sonar-core-plugin-3.7.4.jar|ce3f6e1a4e6ad406c0714bdafffccd7b
+findbugs,false,sonar-findbugs-plugin-1.3.jar|b346b723ea4e3da0fc12fca7f574bd45
+java,false,sonar-java-plugin-1.3.jar|8363b2f715e5492867f22bddda5856e6
+mavenbatch,true,sonar-maven-batch-plugin-3.7.4.jar|d20d7aa9925a097166bc8f22f94e55fa
+cpd,true,sonar-cpd-plugin-3.7.4.jar|00a6f9aaed07c36f1de8f4d42fae6a8e
+design,true,sonar-design-plugin-3.7.4.jar|9f095fd8a78513420d74462a396a1e16
+l10nen,true,sonar-l10n-en-plugin-3.7.4.jar|d2b2725baaf4164b126b7a90616c8613
+checkstyle,false,sonar-checkstyle-plugin-1.3.jar|c2bdda9269a2db0e3279b9d1c11ed57d

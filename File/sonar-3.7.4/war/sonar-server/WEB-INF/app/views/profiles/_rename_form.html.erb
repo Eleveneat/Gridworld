@@ -1,0 +1,24 @@
+<form id="rename-profile-form" method="post" action="profiles/rename">
+<input type="hidden" name="id" value="<%= @profile.id -%>"/>
+<fieldset>
+<div class="modal-head">
+<h2>Rename Profile: <%= h @profile.name_was -%></h2>
+</div>
+<div class="modal-body">
+<% @profile.errors.each do |attr, msg| %>
+<p class="error"><%= h msg -%></p>
+<% end %>
+<div class="modal-field">
+<label for="name">New name <em class="mandatory">*</em></label>
+<input id="new-name" name="name" type="text" size="50" maxlength="100" autofocus="autofocus"/>
+</div>
+</div>
+<div class="modal-foot">
+<input type="submit" value="<%= h message('rename') -%>" id="rename-submit"/>
+<a href="#" onclick="return closeModalWindow()" id="rename-cancel"><%= h message('cancel') -%></a>
+</div>
+</fieldset>
+</form>
+<script>
+$j("#rename-profile-form").modalForm();
+</script>

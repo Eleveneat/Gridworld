@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="AutoCompileAndRun" default="run">
+    <description>A simple Java project to print Hello World</description>
+
+    <property name="srcDir" location="src"/>
+    <property name="destDir" location="dest"/>
+
+    <target name="init">
+        <mkdir dir="${destDir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${srcDir}" destdir="${destDir}" includeantruntime="on"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="Calculator" classpath="${destDir}" fork="yes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${destDir}"/>
+    </target>
+</project>

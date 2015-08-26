@@ -1,0 +1,19 @@
+<%
+if @snapshot.root?
+resource_name = message('qualifier.' + @project.qualifier)
+delete_resource_message = message('project_deletion.delete_resource', :params => resource_name)
+%>
+<h1><%= delete_resource_message -%></h1>
+<br/>
+<div class="yui-g widget" id="widget_delete_project">
+<div class="warning">
+<% form_remote_tag( :url => {:action => 'delete', :id => @project.id}, :method => :delete,
+:loading => "window.location='#{url_for :action => 'pending_deletion', :id => @project.id}';") do %>
+<%= message('project_deletion.operation_cannot_be_undone') -%>
+<br/>
+<%= submit_tag delete_resource_message, :id => 'delete_resource', :class => 'action red-button',
+:confirm => message('project_deletion.delete_resource_confirmation', :params => resource_name) %>
+<% end %>
+</div>
+</div>
+<% end %>

@@ -1,0 +1,19 @@
+<div id="resource_container"> </div>
+<% if @display_viewers %>
+<script>
+<% if @drilldown.highlighted_resource %>
+d(<%= @drilldown.highlighted_resource.id -%>, true);
+<% else %>
+d(<%= @drilldown.resource.id -%>, false);
+<% end %>
+</script>
+<% end %>
+<!--[if IE 7]>
+<script>
+$$('.scrollable').each(function(column) {
+if (column.scrollHeight>column.offsetHeight) {
+column.addClassName('scroll-ie');
+}
+});
+</script>
+<![endif]-->

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="AutoCompile" default="test">
+    <description>A simple Java project to print Hello World</description>
+
+    <property name="srcDir" location="src"/>
+    <property name="libDir" location="lib"/>
+    <property name="destDir" location="dest"/>
+    <property name="testDir" location="test"/>
+    <property name="testReportDir" location="testReport"/>
+
+    <target name="init">
+        <mkdir dir="${destDir}"/>
+        <mkdir dir="${testReportDir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${srcDir}:${testDir}" destdir="${destDir}" includeantruntime="on"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="HelloWorld" classpath="${destDir}" />
+    </target>
+
+    <target name="test" depends="compile">
+        <junit printsummary="yes" haltonerror="yes" haltonfailure="yes" fork="yes">      
+            <classpath> 
+                <pathelement path="${destDir}"/> 
+                <fileset dir="${libDir}" includes="*.jar"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>  
+            <batchtest todir="${testReportDir}">
+                <fileset dir="${testDir}" includes="*.java"/>
+            </batchtest>
+        </junit> 
+    </target>
+
+    <target name="clean">
+        <delete dir="${destDir}"/>
+        <delete dir="${testReportDir}"/>
+    </target>
+</project>

@@ -1,0 +1,17 @@
+<div class="marginbottom10">
+<% if @rule.description.strip.start_with?('<p>') %>
+<%= Internal.text.interpretMacros(@rule.description) %>
+<% else %>
+<p><%= Internal.text.interpretMacros(@rule.description) %></p>
+<% end %>
+</div>
+<% if @rule.note %>
+<div class="marginbottom10">
+<%= @rule.note.html_text -%>
+</div>
+<% end %>
+<div class="note">
+<%= h @rule.plugin_name -%>
+&nbsp;<%= image_tag 'sep12.png' -%>&nbsp;
+<a href="#" onclick="return openIssueRulePopup(this)"><%= h @rule.plugin_rule_key -%></a>
+</div>
